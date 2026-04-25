@@ -1,112 +1,101 @@
 # DecentraPost
 
-<p align="center">
-  <img src="https://img.shields.io/badge/ActivityPub-Federated-C70039?style=for-the-badge&logo=mastodon&logoColor=white" alt="ActivityPub">
-  <img src="https://img.shields.io/badge/TypeScript-5.5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
-</p>
+Decentralized social platform with ActivityPub protocol and end-to-end encryption.
 
-> 🌍 **Federated Social Network** - End-to-end encrypted, ad-free, privacy-first social network compatible with Mastodon and ActivityPub.
+## Features
 
-## ✨ Features
+- **ActivityPub Protocol**: Full federation with Mastodon, Pixelfed, and other ActivityPub-compatible platforms
+- **End-to-End Encryption**: Secure DMs using AES-256-GCM with shared secret derivation
+- **Decentralized Identity**: WebFinger and ActivityStreams for user discovery
+- **JWT Authentication**: Secure session management with JSON Web Tokens
+- **RSA Key Pairs**: Per-user cryptographic identities for message signing
 
-### Core Platform
-- 📝 **Posts** - Text, images, videos, polls, articles
-- 🔗 **Federation** - Full ActivityPub support, connect with Mastodon
-- 🔒 **E2E Encryption** - Private messages encrypted end-to-end
-- 👥 **Followers/Following** - Standard social graph
-- 🔔 **Notifications** - Real-time notifications
-- 🔍 **Discovery** - Trending posts, hashtags, profiles
+## Tech Stack
 
-### Privacy
-- 🚫 **No Ads** - Completely ad-free
-- 🔐 **Privacy Controls** - Granular post visibility
-- 🗑️ **Data Portability** - Export all your data
-- 🔑 **Key Management** - User-controlled encryption keys
-- 🏳️ **No Tracking** - No analytics, no cookies
+- Node.js + Express.js
+- PostgreSQL
+- Crypto-JS (AES-256-GCM)
 
-### Moderation
-- 🛡️ **Content Moderation** - AI-powered content flagging
-- 🚫 **Block/Domain Block** - User and server blocking
-- 📋 **Moderation Tools** - For admins and users
-- 🔨 **Appeal System** - Moderation decision appeals
+## Getting Started
 
-## 🏗️ Architecture
+### Prerequisites
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                      DecentraPost Architecture                   │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │                    Frontend (React/Next.js)              │   │
-│  │  - Web App                                                   │   │
-│  │  - PWA (Offline capable)                                     │   │
-│  │  - Native (React Native - Future)                           │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                             │                                    │
-│  ┌──────────────────────────┴──────────────────────────────────┐ │
-│  │                    API Server (Node.js + Fastify)            │ │
-│  │  ┌──────────────────────────────────────────────────────┐   │ │
-│  │  │ ActivityPub Server Implementation                      │   │ │
-│  │  │ - Inbox/Outbox                                        │   │ │
-│  │  │ - Federation                                          │   │ │
-│  │  │ - WebFinger                                           │   │ │
-│  │  └──────────────────────────────────────────────────────┘   │ │
-│  └──────────────────────────────────────────────────────────────┘ │
-│                             │                                    │
-│  ┌──────────────────────────┴──────────────────────────────────┐ │
-│  │                    Services                                  │ │
-│  │  ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌─────────────┐ │ │
-│  │  │  Post     │ │  User    │ │  Media   │ │   Crypto   │ │ │
-│  │  │  Service  │ │  Service  │ │  Service  │ │   Service  │ │ │
-│  │  └───────────┘ └───────────┘ └───────────┘ └─────────────┘ │ │
-│  └──────────────────────────────────────────────────────────────┘ │
-│                             │                                    │
-│  ┌──────────────────────────┴──────────────────────────────────┐ │
-│  │                    Storage                                  │ │
-│  │  ┌───────────┐ ┌───────────┐ ┌───────────┐ ┌─────────────┐ │ │
-│  │  │ PostgreSQL│ │  Redis   │ │  S3/MinIO │ │   Matrix    │ │ │
-│  │  │ (Primary) │ │ (Cache)  │ │  (Media)  │ │ (Encrypted  │ │ │
-│  │  │           │ │          │ │           │ │   Messages) │ │ │
-│  │  └───────────┘ └───────────┘ └───────────┘ └─────────────┘ │ │
-│  └──────────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-```
+- Node.js 18+
+- PostgreSQL 14+
 
-## 📦 Installation
+### Installation
 
 ```bash
-git clone https://github.com/moggan1337/DecentraPost.git
-cd DecentraPost
-
-# Install dependencies
 npm install
-
-# Setup environment
-cp .env.example .env
-# Configure database, Redis, S3
-
-# Initialize database
-npm run db:migrate
-
-# Start development
-npm run dev
 ```
 
-## 🔐 Encryption
+### Database Setup
 
-```typescript
-// E2E Encryption for Direct Messages
-const encrypted = await cryptoService.encryptMessage(
-  message,
-  recipientPublicKey
-);
+```bash
+# Create PostgreSQL database
+createdb decentrapost
 
-// Sign posts for authenticity
-const signed = await cryptoService.signContent(post, userPrivateKey);
+# Run migrations
+npm run migrate
 ```
 
-## 📄 License
+### Configuration
 
-AGPLv3 License - See [LICENSE](LICENSE)
+Create a `.env` file:
+
+```env
+PORT=3000
+BASE_URL=http://localhost:3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=decentrapost
+DB_USER=postgres
+DB_PASSWORD=your_password
+JWT_SECRET=your-secret-key
+```
+
+### Running
+
+```bash
+npm start
+```
+
+## API Endpoints
+
+### Authentication
+- `POST /users/register` - Register new user
+- `POST /users/login` - Login
+
+### ActivityPub
+- `GET /.well-known/webfinger` - User discovery
+- `GET /users/:username` - Get actor object
+- `POST /users/:username/inbox` - Receive activities
+- `POST /users/:username/outbox` - Post activities
+- `GET /users/:username/followers` - Get followers
+- `GET /users/:username/following` - Get following
+
+### Direct Messages
+- `POST /dm/send` - Send encrypted DM
+- `GET /dm/conversations` - List conversations
+- `GET /dm/messages/:id` - Get messages
+
+## Activity Types Supported
+
+- `Follow` - Follow a user
+- `Accept` - Accept a follow request
+- `Reject` - Reject a follow request
+- `Create` - Create a note
+- `Delete` - Delete content
+- `Announce` - Boost/Share
+- `Like` - Like content
+
+## Security
+
+- All DMs are encrypted with AES-256-GCM
+- Shared secrets derived from user pair using SHA-256
+- HTTP Signatures for federation verification
+- Password hashing with bcrypt (cost factor 12)
+
+## License
+
+MIT
